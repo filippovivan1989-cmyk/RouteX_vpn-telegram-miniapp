@@ -1,35 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Личный кабинет VPN</title>
+  <title>RouteX VPN — Личный кабинет</title>
+  <meta name="viewport" content="width=400, initial-scale=1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    body { font-family: sans-serif; margin: 2em; }
-    .btn { background: #3faee8; color: white; border: none; padding: 1em 2em; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 1em; }
-    .card { background: #1c1e21; color: #fff; border-radius: 12px; padding: 1.5em; box-shadow: 0 2px 16px rgba(0,0,0,.09);}
+    body {
+      background: radial-gradient(ellipse at center, #15342a 0%, #10211b 100%);
+      color: #e9f3ef;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0; padding: 0;
+      min-height: 100vh;
+    }
+    .main-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 0 0 24px 0;
+    }
+    .card {
+      background: rgba(22,34,28,0.97);
+      border-radius: 18px;
+      box-shadow: 0 6px 32px #0008;
+      padding: 28px 18px 24px 18px;
+      margin-top: 24px;
+    }
+    .logo-block {
+      text-align: center;
+      margin-top: 24px;
+      position: relative;
+    }
+    .waves {
+      width: 100px; height: 100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 0;
+    }
+    .logo-block svg {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 1;
+    }
+    .title { font-size: 1.4em; font-weight: 700; margin-bottom: 12px; }
+    .subtitle { color: #71ebbc; font-size: 1.07em; margin-bottom: 8px; }
+    .status { color: #888; font-size: 0.93em; margin-bottom: 10px;}
+    .btn {
+      width: 100%; display: block;
+      padding: 14px 0;
+      font-size: 1.11em; font-weight: 600;
+      background: linear-gradient(90deg, #1baf68 0%, #39de90 100%);
+      color: #fff; border: none; border-radius: 12px;
+      margin-top: 12px;
+      cursor: pointer;
+      transition: background .18s;
+      text-align: center; text-decoration: none;
+    }
+    .btn.secondary {
+      background: #233a31;
+      color: #84ebc2;
+      border: 1px solid #335247;
+      margin-top: 10px;
+    }
+    .menu-row {
+      display: flex; gap: 8px; margin-top: 10px;
+    }
+    .menu-row .btn {
+      flex: 1 1 0%;
+      margin: 0;
+      padding: 10px 0;
+      font-size: 1em;
+    }
+    .profile-id {
+      font-size: 0.98em; color: #84ebc2; word-break: break-all;
+    }
+    .linkbox {
+      background: #17362c; padding: 10px; border-radius: 8px; margin: 10px 0;
+      word-break: break-all; color: #fff; text-align: center;
+      font-family: monospace; font-size: 1.03em;
+    }
+    .faq-modal {
+      display: none; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(15,22,21,0.92); z-index: 99;
+      align-items: center; justify-content: center;
+    }
+    .faq-modal.active { display: flex; }
+    .faq-content {
+      background: #1b2e27; border-radius: 14px; padding: 22px 20px 18px 20px;
+      min-width: 320px; max-width: 98vw;
+    }
+    .faq-content h3 { margin: 0 0 14px 0; }
+    .faq-list { list-style: none; padding: 0; margin: 0 0 14px 0;}
+    .faq-list li { padding: 10px 0; border-bottom: 1px solid #26483b;}
+    .faq-list li:last-child { border-bottom: none; }
+    .faq-link { color: #71ebbc; cursor: pointer; text-decoration: underline; }
+    .close-faq {
+      background: #233a31; color: #fff; border: none; border-radius: 8px;
+      padding: 8px 14px; margin-top: 10px; font-size: 1em; cursor: pointer;
+      display: block; margin-left: auto; margin-right: auto;
+    }
+    .footer { text-align: center; color: #567c6a; font-size: 0.92em; margin-top: 30px; }
+    a { color: #84ebc2; text-decoration: underline; }
+    @media (max-width: 480px) {
+      .main-container { max-width: 99vw; }
+      .faq-content { min-width: 98vw; }
+    }
   </style>
 </head>
 <body>
-  <h2>Личный кабинет VPN</h2>
-  <div class="card">
-    <div id="userinfo"></div>
-    <button class="btn" onclick="alert('Здесь будет кнопка “Сгенерировать ключ”')">Сгенерировать ключ</button>
+  <div class="main-container">
+
+    <!-- Лого + статус -->
+    <div class="logo-block">
+      <div class="waves">
+        <!-- Волны (анимированные круги) -->
+        <svg width="100" height="100">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#155c38" stroke-width="2" opacity="0.4">
+            <animate attributeName="r" values="40;48;40" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="50" cy="50" r="28" fill="none" stroke="#2da873" stroke-width="2" opacity="0.6">
+            <animate attributeName="r" values="28;35;28" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        <!-- Логотип (замок/щит) -->
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="z-index:2;">
+          <path d="M12 2L19 7V17L12 22L5 17V7L12 2Z" stroke="#71ebbc" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Главная карточка -->
+    <div class="card" id="main-section">
+      <div class="title">RouteX VPN</div>
+      <div class="status">Пробный период до <span id="expire-date">9 августа 2025</span></div>
+      <a class="btn" href="#" onclick="showSection('buy')">Купить подписку</a>
+      <div class="menu-row">
+        <button class="btn secondary" onclick="showSection('setup')">Установка и настройка</button>
+        <button class="btn secondary" onclick="showSection('profile')">Профиль</button>
+        <button class="btn secondary" onclick="showFaq()">Поддержка</button>
+      </div>
+    </div>
+
+    <!-- Покупка подписки -->
+    <div class="card" id="buy-section" style="display:none;">
+      <div class="title">Покупка подписки</div>
+      <div style="margin-bottom:10px; color:#adf0ce;">Выберите тариф и количество устройств</div>
+      <div style="margin-bottom:10px;">
+        <label for="deviceCount">Количество устройств: </label>
+        <select id="deviceCount">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <div class="menu-row" style="margin-bottom: 12px;">
+        <button class="btn" onclick="selectPlan(1,150)">1 месяц<br><small>150 ₽</small></button>
+        <button class="btn" onclick="selectPlan(3,390)">3 месяца<br><small>390 ₽</small></button>
+      </div>
+      <div class="menu-row" style="margin-bottom: 12px;">
+        <button class="btn" onclick="selectPlan(6,720)">6 месяцев<br><small>720 ₽</small></button>
+        <button class="btn" onclick="selectPlan(12,1320)">1 год<br><small>1320 ₽</small></button>
+      </div>
+      <button class="btn" id="payBtn" style="margin-top:10px;">Оплатить</button>
+      <button class="btn secondary" onclick="showSection('main')">Назад</button>
+    </div>
+
+    <!-- Настройка и установка -->
+    <div class="card" id="setup-section" style="display:none;">
+      <div class="title">Установка и настройка</div>
+      <div class="subtitle">VPN для вашего устройства в 3 шага</div>
+      <button class="btn" onclick="window.open('https://teletype.in/@ultimavpn/main','_blank')">Инструкция для всех платформ</button>
+      <button class="btn secondary" onclick="showSection('main')">Назад</button>
+    </div>
+
+    <!-- Профиль -->
+    <div class="card" id="profile-section" style="display:none;">
+      <div class="title" id="username">Пользователь</div>
+      <div class="profile-id" id="userid">id: —</div>
+      <div class="menu-row" style="margin-top:18px;">
+        <button class="btn secondary" onclick="showSection('buy')">Оплата</button>
+        <button class="btn secondary" onclick="window.open('https://teletype.in/@ultimavpn/main','_blank')">Инструкция</button>
+      </div>
+      <div class="menu-row" style="margin-top:10px;">
+        <button class="btn secondary" onclick="window.open('https://t.me/your_support_username','_blank')">Поддержка</button>
+        <button class="btn secondary" onclick="window.open('https://t.me/your_referral','_blank')">Реферальная программа</button>
+      </div>
+      <div style="margin:12px 0 5px 0;">
+        <div style="font-size:0.98em; color:#e5fffb;">Ссылка на подключение:</div>
+        <div class="linkbox" id="vpnlink">https://vpn.routex.app/abc123</div>
+      </div>
+      <button class="btn secondary" onclick="showSection('main')">Назад</button>
+    </div>
+
+    <!-- Модальное окно FAQ/поддержка -->
+    <div class="faq-modal" id="faq-modal">
+      <div class="faq-content">
+        <h3>Ответы на частые вопросы</h3>
+        <ul class="faq-list">
+          <li>
+            <span class="faq-link" onclick="window.open('https://teletype.in/@ultimavpn/main#more','_blank')">
+              Как подключить VPN на дополнительные устройства?
+            </span>
+          </li>
+          <li>
+            <span class="faq-link" onclick="window.open('https://teletype.in/@ultimavpn/main#ios','_blank')">
+              Перестал подключаться VPN на iOS
+            </span>
+          </li>
+        </ul>
+        <a href="https://t.me/your_support_username" target="_blank" class="btn">Связаться с поддержкой</a>
+        <button class="close-faq" onclick="closeFaq()">Закрыть</button>
+      </div>
+    </div>
+
+    <div class="footer">@routexvpn_bot</div>
   </div>
+
   <script>
-    // Получаем инфу о пользователе из Telegram
-    if (window.Telegram && Telegram.WebApp) {
-      let tg = Telegram.WebApp;
-      let user = tg.initDataUnsafe.user;
-      if (user) {
-        document.getElementById('userinfo').innerHTML = `
-          <b>Привет, ${user.first_name || user.username}!</b><br>
-          Ваш Telegram ID: ${user.id}
-        `;
-      } else {
-        document.getElementById('userinfo').innerText = "Открой через Telegram!";
+    // Управление разделами
+    function showSection(section) {
+      ['main', 'buy', 'setup', 'profile'].forEach(id => {
+        document.getElementById(id+'-section').style.display = id === section ? 'block' : 'none';
+      });
+      closeFaq();
+    }
+
+    // FAQ modal
+    function showFaq() {
+      document.getElementById('faq-modal').classList.add('active');
+    }
+    function closeFaq() {
+      document.getElementById('faq-modal').classList.remove('active');
+    }
+
+    // Тестовый расчёт плана
+    let selectedPlan = {months:1, price:150};
+    function selectPlan(months, price) {
+      selectedPlan = {months, price};
+      document.getElementById('payBtn').innerText = `Оплатить ${price} ₽`;
+    }
+    document.getElementById('payBtn').onclick = function() {
+      alert('Платёж пока не подключён, будет реализован позже!');
+      showSection('main');
+    };
+
+    // Заполнение профиля из Telegram WebApp
+    window.onload = function() {
+      if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe.user) {
+        let user = Telegram.WebApp.initDataUnsafe.user;
+        document.getElementById('username').innerText = `${user.first_name || user.username || "Пользователь"}`;
+        document.getElementById('userid').innerText = `id: ${user.id}`;
       }
     }
   </script>
 </body>
 </html>
+
