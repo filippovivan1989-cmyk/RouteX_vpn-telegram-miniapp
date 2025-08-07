@@ -6,26 +6,22 @@
   <meta name="viewport" content="width=400, initial-scale=1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    /* ROUTEX: palette start — новая палитра под логотип (тёмно‑синяя тема + циан/лайм акценты) */
     :root{
       --bg-start:#0b1220;
       --bg-end:#0f172a;
       --text:#e5f1ff;
-      --primary-1:#22d3ee;   /* акцент (циан) */
-      --primary-2:#0ea5b9;   /* градиент к акценту */
-      --accent:#84cc16;      /* лаймовый штрих */
-      --panel:#0f172a;       /* фон карточек */
-      --panel-alpha:0.97;    /* прозрачность карточек */
-      --border:#1f2c46;      /* бордеры вторичных кнопок/разделителей */
-      --text-dim:#9fb4d0;    /* вторичный текст/статус */
-      --link:#22d3ee;        /* ссылки */
-      --link-2:#9ae6ff;      /* светлые ссылки на тёмном */
-      --muted:#6b86a5;       /* футер */
+      --primary-1:#22d3ee;
+      --primary-2:#0ea5b9;
+      --accent:#84cc16;
+      --panel:#0f172a;
+      --panel-alpha:0.97;
+      --border:#1f2c46;
+      --text-dim:#9fb4d0;
+      --link:#22d3ee;
+      --link-2:#9ae6ff;
+      --muted:#6b86a5;
     }
-    /* ROUTEX: palette end */
-
     body {
-      /* ROUTEX: обновлённый фон под бренд */
       background: radial-gradient(ellipse at 80% 0%, rgba(34,211,238,0.08) 0%, transparent 45%),
                   radial-gradient(ellipse at 15% 20%, rgba(132,204,22,0.05) 0%, transparent 40%),
                   radial-gradient(ellipse at center, var(--bg-start) 0%, var(--bg-end) 100%);
@@ -40,13 +36,12 @@
       padding: 0 0 24px 0;
     }
     .card {
-      /* ROUTEX: панель в тёмно‑синей гамме */
       background: rgba(15,23,42,var(--panel-alpha));
       border-radius: 18px;
       box-shadow: 0 6px 32px #0008;
       padding: 28px 18px 24px 18px;
       margin-top: 24px;
-      border: 1px solid rgba(255,255,255,0.06); /* лёгкий контур */
+      border: 1px solid rgba(255,255,255,0.06);
     }
     .logo-block {
       text-align: center;
@@ -59,7 +54,7 @@
       position: relative;
       z-index: 0;
     }
-    .logo-block svg {
+    .logo-block img {
       position: absolute;
       left: 50%; top: 50%;
       transform: translate(-50%,-50%);
@@ -72,7 +67,6 @@
       width: 100%; display: block;
       padding: 14px 0;
       font-size: 1.11em; font-weight: 600;
-      /* ROUTEX: Primary кнопка — циан градиент */
       background: linear-gradient(90deg, var(--primary-2) 0%, var(--primary-1) 100%);
       color: #07131b; border: none; border-radius: 12px;
       margin-top: 12px;
@@ -82,7 +76,6 @@
       box-shadow: 0 8px 22px rgba(34,211,238,.25);
     }
     .btn.secondary {
-      /* ROUTEX: вторичная кнопка в тёмной гамме */
       background: #111a2e;
       color: var(--link-2);
       border: 1px solid var(--border);
@@ -141,7 +134,7 @@
     <!-- Лого + статус -->
     <div class="logo-block">
       <div class="waves">
-        <!-- Волны (анимированные круги) — ROUTEX: обновлены цвета под циан -->
+        <!-- Волны (анимированные круги) -->
         <svg width="100" height="100">
           <circle cx="50" cy="50" r="40" fill="none" stroke="#0ea5b9" stroke-width="2" opacity="0.35">
             <animate attributeName="r" values="40;48;40" dur="2s" repeatCount="indefinite"/>
@@ -152,31 +145,13 @@
             <animate attributeName="opacity" values="0.5;0.15;0.5" dur="2s" repeatCount="indefinite"/>
           </circle>
         </svg>
-        <!-- ROUTEX: logo start — заменён простой щит на брендовый RouteX (щит + маршрут + стрелка) -->
-        <svg width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="z-index:2;">
-          <defs>
-            <linearGradient id="g-shield" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#0ea5b9"/>
-              <stop offset="100%" stop-color="#0891b2"/>
-            </linearGradient>
-            <linearGradient id="g-route" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stop-color="#22d3ee"/>
-              <stop offset="100%" stop-color="#67e8f9"/>
-            </linearGradient>
-            <linearGradient id="g-accent" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#a3e635"/>
-              <stop offset="100%" stop-color="#84cc16"/>
-            </linearGradient>
-          </defs>
-          <!-- Щит -->
-          <path d="M32 4c6 4 12 5 20 6 1 12 .5 22-6.2 30.8C40.6 49.1 36 52 32 54c-4-2-8.6-4.9-13.8-13.2C11.5 32 11 22 12 10c8-1 14-2 20-6z"
-                fill="url(#g-shield)" stroke="rgba(0,0,0,.25)" stroke-width="1"/>
-          <!-- Дорога -->
-          <path d="M22 48c9-8 8-17 2-22" fill="none" stroke="url(#g-route)" stroke-width="4" stroke-linecap="round"/>
-          <circle cx="24" cy="24" r="3" fill="url(#g-accent)"/>
-          <!-- Стрелка направления -->
-          <path d="M36 18l10 4-4 10" fill="none" stroke="#e6fffb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <!-- ROUTEX: logo start -->
+        <img
+          src="./logo.jpg"
+          alt="RouteX VPN"
+          width="48" height="48"
+          style="z-index:2; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);"
+        />
         <!-- ROUTEX: logo end -->
       </div>
     </div>
@@ -269,23 +244,18 @@
   </div>
 
   <script>
-    // Управление разделами
     function showSection(section) {
       ['main', 'buy', 'setup', 'profile'].forEach(id => {
         document.getElementById(id+'-section').style.display = id === section ? 'block' : 'none';
       });
       closeFaq();
     }
-
-    // FAQ modal
     function showFaq() {
       document.getElementById('faq-modal').classList.add('active');
     }
     function closeFaq() {
       document.getElementById('faq-modal').classList.remove('active');
     }
-
-    // Тестовый расчёт плана
     let selectedPlan = {months:1, price:150};
     function selectPlan(months, price) {
       selectedPlan = {months, price};
@@ -295,8 +265,6 @@
       alert('Платёж пока не подключён, будет реализован позже!');
       showSection('main');
     };
-
-    // Заполнение профиля из Telegram WebApp
     window.onload = function() {
       if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe.user) {
         let user = Telegram.WebApp.initDataUnsafe.user;
